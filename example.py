@@ -18,7 +18,7 @@ recommender.load_model("models/trained_model.pk")
 
 #query = 'I cannot complete this task because Faulty fibre port ( no s pares ) causing noisy line. Waiting on lums case 184241, spo ke to dcoe,expected to be resolved 5/5/18. Please pass to CS S queue Id Na. The line has been proven good to the PCP. Ear th contact was detected towards the end customer.'
 
-query = "Cannot complete the job because i don't have access to the DP. It's in the alleyways and most of the shop owners doesn't have the key to the main gate."
+query = "I cannot complete this task because of a hazard owned by Openreach / third party. Dp damaged by fire A1024 13416129 manager informed  is preventing further work. "
 print (recommender.predict([query]))
 
 print (recommender.predict_proba([query]))
