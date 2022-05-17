@@ -35,8 +35,8 @@ class Recommender(BaseEstimator):
 
         Parameters
         ----------
-        filename : TYPE, optional
-            DESCRIPTION. The default is "models/trained_model.pk".
+        filename : str, optional
+            The name of the file to load the model from. The default is "models/trained_model.pk".
 
         Raises
         ------
