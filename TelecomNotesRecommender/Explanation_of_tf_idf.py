@@ -69,7 +69,8 @@ def get_similarity_per_class(model, sources_tfidf, source_labels, query, neighbo
     for each neighbour of the given query which has that class.
     Params:
         model - tfidf model to use. Must be tfidf.
-        source_texts - the set of labelled data from which to extract neighbours (TF-IDF representtion)
+        source_tfidf - the set of labelled data from which to extract neighbours (TF-IDF representtion)
+        source_labels - the labels of the source texts
         query - String containing the query note.
     Returns:
         sims - Dictionary where the key is the given class label and each value 
@@ -127,7 +128,8 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
     for each neighbour of the given query which has that class.
     Params:
         model - tfidf model to use. Must be tfidf.
-        x - the set of labelled data from which to extract neighbours.
+        source_tfidf - the set of labelled data from which to extract neighbours (TF-IDF representtion)
+        source_labels - the labels of the source texts
         query - String containing the query note.
     Returns:
         keywords_per_label - Dictionary where the key is the given class label
@@ -196,7 +198,8 @@ def find_overlap(model, source_tfidf, source_labels, query, keywords = None):
     for each neighbour of the given query which has that class.
     Params:
         model - tfidf model to use. Must be tfidf.
-        x - the set of labelled data from which to extract neighbours.
+        source_tfidf - the set of labelled data from which to extract neighbours (TF-IDF representtion)
+        source_labels - the labels of the source texts
         query - String containing the query note.
     Returns:
         overlap - Dictionary where the key is the given class label
