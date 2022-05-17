@@ -80,7 +80,7 @@ The new explainer must be tested against a test dataset that is provided in this
 
 1. select 5 notes in this test dataset.
 2. Run the model and predict the class of each note (the next step recommendation).
-3. Provide an explanation for each prediction to ensure the obejctives defined above are met.
+3. Provide an explanation for each prediction to ensure the objectives defined above are met.
 
 
        
