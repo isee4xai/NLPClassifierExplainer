@@ -1,0 +1,8 @@
+InCompleteReason: Eu inside train station where internal cable from Eu is not reaching DP, been told w e cannot run any cable in station . Please pass to CSS queue Id 46.
+InCompleteReason: Hoist required to complete this job as pair is diss at dp and dp is unclimable due to huge split travel ling right up the pole. Fit complete and e side tests ok.
+InCompleteReason: a D-side underground ski lled engineer is required. The line has been proven and tagged at the PCP, Unable to complete this job faulty spares from cab 8 to cab 27 . An earth contact was detected towards the end customer.
+InCompleteReason:Out of date pole hoist out of date pole pics verified via whatsapp,TRC
+InCompleteReason: further work is required by the Dig and Aux control team for a maintenance dig, An A55 has been submitted. The A55 reference is NA.
+InCompleteReason:Cannot  find dp in the building  upboard cannot  find where cables are track and locate dp251    0, Dispatch Comments:assistance, track and locate required
+InCompleteReason: no access to the DP. It's in the alleyways and most of the shop owners doesn't have the key to the main gate.
+InCompleteReason:Pole not climable due to trees UpstreamSpeed:,DownstreamSpeed:,Tested:0,NotTestedReason:Failed Install,DoorColor:,Questions:notes:Install complete, No access to dp as trees need cutting  
