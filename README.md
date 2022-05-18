@@ -92,7 +92,7 @@ Participants can submit their code by creating a fork of this repository and. On
 
 ### Useful attributes
 
-You might find the following attributes of the `Recommender` useful:
+You might find the following attributes of a `Recommender` instance useful:
 
 * `vectorizer.vocabulary_` : The vocabulary learned during the training phase. It has 300 words.
 * `vectorizer.idf_` : Inverse document frequency vector
