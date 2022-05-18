@@ -38,7 +38,7 @@ Note that the TF-IDF vectorizer and KNN classifier are available through the fol
 
 ### Predictions
 
-Predictions on the next action is performed by the `predict()` method:
+Predictions on the next action are performed by the `predict()` method:
 
 ```python
 query = "I cannot complete this task because of a hazard owned by Openreach / third party. Dp damaged by fire A1024 13416129 manager informed  is preventing further work. "
