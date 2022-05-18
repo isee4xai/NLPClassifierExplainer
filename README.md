@@ -83,9 +83,21 @@ The new explainer must be tested against a test dataset that is provided in this
 3. Provide an explanation for each prediction to ensure the objectives defined above are met.
 
 
+## Submission
+
+Participants can submit their code by creating a fork of this repository and. Once ready to submit, please submit a pull request.
        
        
 ## Additional Notes
+
+### Useful attributes
+
+You might find the following attributes of the `Recommender` useful:
+
+* `vectorizer.vocabulary_` : The vocabulary learned during the training phase. It has 300 words.
+* `vectorizer.idf_` : Inverse document frequency vector
+* `vectorizer.stop_words_`: Terms that were ignored during the training phase
+*  `classifier.classes_` : The class labels known by the classifier
 
 
 ### Classes definition
