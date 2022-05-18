@@ -53,7 +53,7 @@ _(in this context  `HI_` is 'Hazard Indicator' and means that the heavy lifter i
 
 ### Explanations
 
-The explanations for a given prediction are performed by the `explained()` method:
+The explanations for a given prediction are performed by the `explain()` method:
 
 ```python
 explanation =  recommender.explain (query)
@@ -74,7 +74,7 @@ Key                           |   Description
 
 The task of this challenge is to provide a better explainer for this type of model.  There is no specific definition of "better" in this context, we expect the participants to improve the existing solution and provide a different view point and/or different technique to generate clear, concise and precise explanations for the model. 
 
-Targeted audience for the explanations are the field engineers who perform  the installation. They need to become confident with the model and consider it as a trusted tool to improve the quality and the efficiency of their work. For this, they need to understand how the predictions have been realized and detect any wrong information/incomplete/mislabeled information that have been used by the model in the the predictions. 
+Targeted audience for the explanations are the field engineers who perform  the installation. They need to become confident with the model and consider it as a trusted tool to improve the quality and the efficiency of their work. For this, they need to understand how the predictions have been realized and detect any wrong/incomplete/mislabeled information that have been used by the model in the the predictions. 
 
 The new explainer must be tested against a test dataset that is provided in this repository (in the file `test_dataset.txt` - the format is one note per line). Is is expected that the participants will perform the following
 
