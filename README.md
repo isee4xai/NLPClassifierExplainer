@@ -22,7 +22,7 @@ The Python module `TelecomNotesRecommender` can be used to access the model and 
 See the file `example.py`  in the root folder.
 
 ### Instance creation
-An model instance is created by the `Recommender` class. The trained model is loaded from disk with the `load_model()` method.  A model is provided in the repository in the `models/trained_model.pk`
+An model instance is provided by the `Recommender` class. The trained model is loaded from disk with the `load_model()` method.  A model is provided in the repository in the `models/trained_model.pk`
 
 ```python
 from TelecomNotesRecommender.Recommender import Recommender
