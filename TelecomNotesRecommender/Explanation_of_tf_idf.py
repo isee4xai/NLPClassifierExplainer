@@ -1,13 +1,8 @@
 import numpy as np
 from nltk.stem.snowball import SnowballStemmer
 
-from gensim import utils
-from gensim.models.doc2vec import TaggedDocument
-import random
 from operator import itemgetter
 from collections import defaultdict
-
-import os
 
 
 
@@ -228,84 +223,3 @@ def find_overlap(model, source_tfidf, source_labels, query, keywords = None):
 
     return overlap
 
-### Data loading object and methods ###
-# These methods define a class for easier loading of data, and then utilise that 
-# to retrieve said data from the identified source files. 
-class TaggedLineSentence(object):
-    def __init__(self, sources, sources_dir):
-        self.sources = sources
-        self.sources_dir = sources_dir
-
-        flipped = {}
-
-        # make sure that keys are unique
-        for key, value in sources.items():
-            if value not in flipped:
-                flipped[value] = [key]
-            else:
-                raise Exception('Non-unique prefix encountered')
-
-    def __iter__(self):
-        for source, prefix in self.sources.items():
-            with open(os.path.join(self.sources_dir, source), 'r') as fin:
-                for item_no, line in enumerate(fin):
-                    yield TaggedDocument(utils.to_unicode(line).split(), [prefix + '_%s' % item_no])
-
-    def to_array(self):
-        self.sentences = []
-        for source, prefix in self.sources.items():
-                with open(os.path.join(self.sources_dir, source),'r') as fin:
-                      for item_no, line in enumerate(fin):
-                          self.sentences.append(TaggedDocument(utils.to_unicode(line).split(), [prefix + '_%s' % item_no]))
-        return(self.sentences)
-
-    def sentences_perm(self):
-        shuffled = list(self.sentences)
-        random.shuffle(shuffled)
-        return(shuffled)
-
-
-
-
-def load_sources(sources_dir='sources'):
-    sources = {'Aerial cable required.txt':'AER', 
-           'ARLLAOH.txt':'ARL', 
-           'Asset Assurance required.txt':'ASA',
-           'C002 - New circuit D side.txt':'C02',
-           'C004 Plan Do Installation.txt':'C04',
-           'C017 D- Pole Validation.txt':'C17',
-           'CR Customer Readiness & Sales Query.txt':'CSQ',
-           'Complete.txt':'COM',
-           'Customer Access.txt':'CA',
-           'Dig Required.txt':'DR',
-           'Duct work required.txt':'DWR',
-           'Exchange Equipment Required.txt':'EER',
-           'Faulty E side.txt':'FES',
-           'Frames work required.txt':'FWR',
-           'Hazard Indicator.txt':'HI',
-           'Hoist required.txt':'HSR',
-           'Hold Required.txt':'HLR',
-           'Line Plant required.txt':'LPR',
-           'Manhole access.txt':'MA',
-           'New Site required.txt':'NSR',
-           'No Access.txt':'NA',
-           'No Dial tone required.txt':'NDT',
-           #'No NEW Activity Required.txt':'NNR',
-           'Out Of Time.txt':'OOT',
-           'Planning Required.txt':'PLR',
-           'Polling Required.txt':'POR',
-           'Survey Required.txt':'SR',
-           'Track & Locate Required.txt':'TLR',
-           'Traffic Management required.txt':'TMR',
-           'Ug Required.txt':'UG'
-           }
-
-    sentences = TaggedLineSentence(sources, sources_dir)
-    x = []
-    y = []
-    
-    for sentence in sentences.to_array():
-        x += [' '.join(sentence[0])]
-        y += [sentence[1][0][0:3]]
-        
-    return np.array(x), np.array(y)
