@@ -135,7 +135,15 @@ TLR	| Track & Locate Required
 TMR	 |Traffic Management required
 UG_	| UG Required
 
+## Citation Request
+Please site following paper for this task:
 
+    @injournal{Martin2021,
+      title={Evaluating Explainability Methods Intended for Multiple Stakeholders.},
+      author={Martin, Kyle and Liret, Anne and Wiratunga, Nirmalie and Owusu, Gilbert and Kern, Mathias},
+      year={2021},
+      organization={KI - Künstliche Intelligenz [online]}
+    }
 
 
 
