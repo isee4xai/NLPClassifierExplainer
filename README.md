@@ -7,7 +7,7 @@ The recommendations are based on the notes provided by the network field enginee
 
 ## The model
 
-the model consists of the following two components:
+The model consists of the following two components:
 
 * a **TF-IDF vectorizer** that converts engineer notes  to a high dimensional TF-IDF representation.
 * a **KNN classifier** that maps the TF-IDF converted documents to next step recommendations. 29 possible actions have been defined, represented in 29 different classes.
@@ -22,7 +22,7 @@ The Python module `TelecomNotesRecommender` can be used to access the model and 
 See the file `example.py`  in the root folder.
 
 ### Instance creation
-An model instance is provided by the `Recommender` class. The trained model is loaded from disk with the `load_model()` method.  A model is provided in the repository in the `models/trained_model.pk`
+A model instance is provided by the `Recommender` class. The trained model is loaded from disk with the `load_model()` method.  A model is provided in the repository in the `models/trained_model.pk`
 
 ```python
 from TelecomNotesRecommender.Recommender import Recommender
@@ -41,7 +41,7 @@ Note that the TF-IDF vectorizer and KNN classifier are available through the fol
 Predictions on the next action are performed by the `predict()` method:
 
 ```python
-query = "I cannot complete this task because of a hazard owned by Openreach / third party. Dp damaged by fire A1024 13416129 manager informed  is preventing further work. "
+query = "I cannot complete this task because of a hazard. Dp damaged by fire A1024 13416129 manager informed  is preventing further work. "
 print (recommender.predict([query]))
 ````
 
@@ -74,18 +74,18 @@ Key                           |   Description
 
 The task of this challenge is to provide a better explainer for this type of model.  There is no specific definition of "better" in this context, we expect the participants to improve the existing solution and provide a different view point and/or different technique to generate clear, concise and precise explanations for the model. 
 
-Targeted audience for the explanations are the field engineers who perform  the installation. They need to become confident with the model and consider it as a trusted tool to improve the quality and the efficiency of their work. For this, they need to understand how the predictions have been realized and detect any wrong/incomplete/mislabeled information that have been used by the model in the the predictions. 
+Targeted audience for the explanations are the engineers who planned the telecom operations. They need to become confident with the model and consider it as a trusted tool to improve the quality and the efficiency of their work. For this, they need to **understand how and why** the predictions have been realized and detect any wrong/incomplete/mislabeled information that have been used by the model in the predictions.
 
-The new explainer must be tested against a test dataset that is provided in this repository (in the file `test_dataset.txt` - the format is one note per line). Is is expected that the participants will perform the following
+The new explainer must be tested against a test dataset that is provided in this repository (in the file `test_dataset.txt` - the format is one note per line). It is expected that the participants will perform the following :
 
-1. select 5 notes in this test dataset.
+1. Select 5 notes in this test dataset.
 2. Run the model and predict the class of each note (the next step recommendation).
 3. Provide an explanation for each prediction to ensure the objectives defined above are met.
 
 
 ## Submission
 
-Participants can submit their code by creating a fork of this repository and. Once ready to submit, please submit a pull request.
+Participants can submit their code by creating a fork of this repository. Once ready to submit, please submit a pull request.
        
        
 ## Additional Notes
@@ -142,7 +142,8 @@ Please site following paper for this task:
       title={Evaluating Explainability Methods Intended for Multiple Stakeholders.},
       author={Martin, Kyle and Liret, Anne and Wiratunga, Nirmalie and Owusu, Gilbert and Kern, Mathias},
       year={2021},
-      organization={KI - Künstliche Intelligenz [online]}
+      organization={KI - Künstliche Intelligenz [online]},
+      doi = {10.1007/s13218-020-00702-6}
     }
 
 
