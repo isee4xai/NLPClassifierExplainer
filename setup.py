@@ -36,11 +36,11 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     
-    #install_requires=["peppercorn"],  # Optional
+    install_requires=["nltk", "sklearn","joblib", "numpy"],  # Optional
     
   
     project_urls={  # Optional
-        "Bug Reports": https://github.com/isee4xai/NLPClassifierExplainer/issues",
+        "Bug Reports": "https://github.com/isee4xai/NLPClassifierExplainer/issues",
         "Source": "https://github.com/isee4xai/NLPClassifierExplainer/",
     },
 )
