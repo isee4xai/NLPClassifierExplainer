@@ -6,7 +6,7 @@ Created on Tue May 17 09:03:55 2022
 """
 
 
-from TelecomNotesRecommender.Recommender import Recommender
+from NLPClassifierExplainer.Recommender import Recommender
 
 recommender = Recommender()
 recommender.load_model("models/trained_model.pk")

@@ -6,8 +6,10 @@ import numpy as np
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
+from stop_words import get_stop_words
+
 stemmer = SnowballStemmer("english")
-stops = set(stopwords.words('english'))
+stops = get_stop_words('english')
 
         
 def tokenizer(text):

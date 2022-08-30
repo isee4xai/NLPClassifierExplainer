@@ -7,12 +7,12 @@ here = pathlib.Path(__file__).parent.resolve()
 
 setup(
   
-    name="NPLClassifierExpaliner",  # Required
+    name="NLPClassifierExplainer",  # Required
     
     version="0.0.1",  # Required
-    long_description=long_description,  # Optional
-    url="https://github.com/isee4xai/NLPClassifierExplainer",  # Optional
-    author="A. Random Developer",  # Optional
+    url="https://github.com/isee4xai/NLPClassifierExplainer",  # Optional 
+    author='b fleisch',
+    author_email='bruno.fleisch at bt.com',
     
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
@@ -36,7 +36,7 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     
-    install_requires=["nltk", "sklearn","joblib", "numpy"],  # Optional
+    install_requires=["nltk", "sklearn","joblib", "numpy", "stop-words"],  # Optional
     
   
     project_urls={  # Optional
