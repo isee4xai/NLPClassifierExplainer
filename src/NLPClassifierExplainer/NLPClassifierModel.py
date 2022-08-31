@@ -6,26 +6,36 @@ Created on Tue May 17 08:52:14 2022
 """
 
 from sklearn.base import BaseEstimator
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .tf_idf_cross_fold import stemmer_tokenizer, stemmer
 from .Explanation_of_tf_idf import get_similarity_per_class, get_keywords, get_keywords_per_class, find_overlap
 
-import __main__
+from nltk.stem.snowball import SnowballStemmer
+from stop_words import get_stop_words
+
 import joblib
 
-class Recommender(BaseEstimator):
+        
+class NLPClassifier(BaseEstimator):
     
-    '''
+    def _tokenizer(self, text):
+        return text.split()
     
-    '''
+    def _stemmer_tokenizer(self, text):
+        return [self.stemmer_.stem(word) for word in  self._tokenizer(text) if text not in self.stops_]
+    
     
     def __init__(self) :
         super().__init__()
         self.is_trained = False
+        self.stemmer_ = SnowballStemmer("english")
+        self.stops_   = get_stop_words('english')
+
         
         
-    def load_model (self, filename="models/trained_model.pk"):
+    def load_model (self, filename="models/trained_model.pkl"):
         '''
         
         Load a trained model from disk. 
@@ -33,7 +43,7 @@ class Recommender(BaseEstimator):
         Parameters
         ----------
         filename : str, optional
-            The name of the file to load the model from. The default is "models/trained_model.pk".
+            The name of the file to load the model from. The default is "models/trained_model.pkl".
 
         Raises
         ------
@@ -46,7 +56,7 @@ class Recommender(BaseEstimator):
 
         '''
         
-        __main__.stemmer_tokenizer, __main__stemmer  = stemmer_tokenizer, stemmer # this really needs to be improved
+        #__main__.stemmer_tokenizer, __main__stemmer  = stemmer_tokenizer, stemmer # this really needs to be improved
         
         tmp = joblib.load (filename)
         if (tmp.__class__ != Pipeline):
@@ -58,6 +68,47 @@ class Recommender(BaseEstimator):
         self.is_trained = True
         return self
     
+    
+    def save_model (self, filename="models/trained_model.pkl"):
+    
+        '''
+        
+        Save a trained model to disk. 
+
+        Parameters
+        ----------
+        filename : str, optional
+            The name of the file to load the model from. The default is "models/trained_model.pkl".
+
+        Raises
+        ------
+        AssertionError
+            If current model is not trained
+
+        Returns
+        -------
+            itself.
+
+        '''
+        
+        if self.is_trained is not True:
+            raise AssertionError ( "No model loaded. Use load_model() method.")
+            
+        joblib.dump (self.pipeline, filename)
+        return self
+        
+        
+    def fit (self, X, y):
+        
+        self.vectorizer = TfidfVectorizer(strip_accents=None, lowercase=False, min_df=7, preprocessor=None,
+                        tokenizer=self._stemmer_tokenizer)
+        self.classifier = KNeighborsClassifier(n_neighbors=5, weights='distance')
+        self.pipeline = make_pipeline( self.vectorizer,   self.classifier)
+        self.pipeline.fit (X, y)
+        
+        self.is_trained = True
+        return self
+        
     
     
         
@@ -165,7 +216,7 @@ class Recommender(BaseEstimator):
             "similarity_per_class": get_similarity_per_class(self.vectorizer,  source_tfidf, source_labels,  query),
             "keywords": get_keywords(self.vectorizer, query),
             "keywords_per_class": get_keywords_per_class(self.vectorizer,  source_tfidf, source_labels, query),
-            "overlap": find_overlap (self.vectorizer,  source_tfidf, source_labels,  query)
+            "overlap": find_overlap (self.vectorizer,  self._stemmer_tokenizer, source_tfidf, source_labels,  query)
             }
         
         return results

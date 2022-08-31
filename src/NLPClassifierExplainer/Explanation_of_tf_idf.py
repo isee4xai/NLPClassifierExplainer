@@ -150,7 +150,7 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
     # For each label in the neighbour set
     keywords_per_label = {}
     for l in labels.keys():
-        result = np.zeros(300)
+        result = np.zeros(len (feature_names))
         
         # For each tf-idf representation which belongs to that label
         for v in labels.get(l):
@@ -159,7 +159,7 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
         
         # Identify the non-zero values
         word_locations = {}
-        for point in range(300):
+        for point in range(len (feature_names)):
             if result[0][point] > 0:
                 word_locations[point] = result[0][point]
         
@@ -174,20 +174,7 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
     return keywords_per_label
 
 
-### Tokenizing methods to divide sentences into individual words ###
-def tokenizer(text):
-    return text.split()
-    
-def stemmer_tokenizer(text):
-    stemmer = SnowballStemmer('english')
-    return [stemmer.stem(word) for word in tokenizer(text)]
-
-
-
-
-
-
-def find_overlap(model, source_tfidf, source_labels, query, keywords = None):
+def find_overlap(model, stemmer_tokenizer, source_tfidf, source_labels, query, keywords = None):
     '''
     Method to extract the keywords for each class, as dictated by the keywords
     for each neighbour of the given query which has that class.

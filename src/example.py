@@ -6,10 +6,10 @@ Created on Tue May 17 09:03:55 2022
 """
 
 
-from NLPClassifierExplainer.Recommender import Recommender
+from NLPClassifierExplainer.NLPClassifierModel import NLPClassifier
 
-recommender = Recommender()
-recommender.load_model("models/trained_model.pk")
+recommender = NLPClassifier()
+recommender.load_model("models/trained_model.pkl")
 
 
 #query = 'New dropfrom eu to carrier pole unable pu t to drop from carrier to dp as it goes over train tracks. An di cant do this safely.'
