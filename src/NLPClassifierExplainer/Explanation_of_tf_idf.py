@@ -1,5 +1,4 @@
 import numpy as np
-from nltk.stem.snowball import SnowballStemmer
 
 from operator import itemgetter
 from collections import defaultdict
@@ -97,12 +96,13 @@ def get_similarity_per_class(model, sources_tfidf, source_labels, query, neighbo
     return sims
     
     
-def get_keywords(model, query):
+def get_keywords(model, query, top_n=10):
     '''
-    Method to return a srted list of the top tf-idf values in a given query.
+    Method to return a sorted list of the top tf-idf values in a given query.
     Params:
         model - tfidf model to use. Must be tfidf.
         query - String containing the query note.
+        top_n - number of keywords to extract
     Returns:
         keywords - Tuple containing a zipped list of word and tf-idf value
     '''
@@ -110,14 +110,14 @@ def get_keywords(model, query):
     query = model.transform([query])
     
     # Extract vocabulary from model
-    feature_names = model.get_feature_names()
+    feature_names = model.get_feature_names_out()
     
     sorted_items = sort_coo(query.tocoo())
-    keywords = extract_topn_from_vector(feature_names,sorted_items,10)
+    keywords = extract_topn_from_vector(feature_names,sorted_items,top_n)
 
     return keywords
     
-def get_keywords_per_class(model, source_tfidf, source_labels, query):
+def get_keywords_per_class(model, source_tfidf, source_labels, query, top_n):
     '''
     Method to extract the keywords for each class, as dictated by the keywords
     for each neighbour of the given query which has that class.
@@ -126,6 +126,8 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
         source_tfidf - the set of labelled data from which to extract neighbours (TF-IDF representtion)
         source_labels - the labels of the source texts
         query - String containing the query note.
+        top_n - number of keywords to extract
+
     Returns:
         keywords_per_label - Dictionary where the key is the given class label
                              and each value is a sorted list of keywords.
@@ -135,7 +137,7 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
     query = model.transform([query])
     
     # Extract vocabulary from model
-    feature_names = model.get_feature_names()
+    feature_names = model.get_feature_names_out()
     
     #Identify nearest neighbours and their labels
     neighbour = get_legacy_neighbours(source_tfidf.todense(), query.todense(), 5)
@@ -168,13 +170,13 @@ def get_keywords_per_class(model, source_tfidf, source_labels, query):
         
         # Extract the top n (in this case 10) key words
         sorted_items = word_locations
-        keywords = extract_topn_from_vector(feature_names, sorted_items, 10)
+        keywords = extract_topn_from_vector(feature_names, sorted_items, top_n)
         keywords_per_label[l] = keywords
         
     return keywords_per_label
 
 
-def find_overlap(model, stemmer_tokenizer, source_tfidf, source_labels, query, keywords = None):
+def find_overlap(model, source_tfidf, source_labels, query, keywords = None, top_n=10):
     '''
     Method to extract the keywords for each class, as dictated by the keywords
     for each neighbour of the given query which has that class.
@@ -183,18 +185,21 @@ def find_overlap(model, stemmer_tokenizer, source_tfidf, source_labels, query, k
         source_tfidf - the set of labelled data from which to extract neighbours (TF-IDF representtion)
         source_labels - the labels of the source texts
         query - String containing the query note.
+        top_n - number of keywords to extract
+
     Returns:
         overlap - Dictionary where the key is the given class label
                   and each value is a 2D list containg the word (String) and
                   whether it is present in the query or not (Boolean).
     '''
     
+    stemmer_tokenizer = model.get_params()['tokenizer']
     # Transform the query using tf-idf model
     query_words = stemmer_tokenizer(query)
     
     # If keywords are not identified, find them by calling that method
     if keywords == None:
-        keywords = get_keywords_per_class(model, source_tfidf, source_labels,  query)
+        keywords = get_keywords_per_class(model, source_tfidf, source_labels,  query, top_n)
     
     # For each keyword
     overlap = {}

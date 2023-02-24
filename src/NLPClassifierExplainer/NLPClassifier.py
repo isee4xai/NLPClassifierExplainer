@@ -10,32 +10,46 @@ from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .Explanation_of_tf_idf import get_similarity_per_class, get_keywords, get_keywords_per_class, find_overlap
-
+import gensim
 from nltk.stem.snowball import SnowballStemmer
-from stop_words import get_stop_words
 
 import joblib
 
         
 class NLPClassifier(BaseEstimator):
     
-    def _tokenizer(self, text):
-        return text.split()
-    
-    def _stemmer_tokenizer(self, text):
-        return [self.stemmer_.stem(word) for word in  self._tokenizer(text) if text not in self.stops_]
-    
-    
-    def __init__(self) :
+   
+    def __init__(self,
+                stop_words=[],
+                max_features=300,
+                n_neighbors=5,
+                min_df = 7,
+                ngram_range=(1,1)) :
         super().__init__()
+
         self.is_trained = False
-        self.stemmer_ = SnowballStemmer("english")
-        self.stops_   = get_stop_words('english')
+        self.stop_words = stop_words
+        self.tokenizer =  self.build_tokenizer() 
+        self.ngram_range = ngram_range
+        self.min_df = min_df
+        self.max_features = max_features
+        self.n_neighbors = n_neighbors
+        self.stemmer = SnowballStemmer('english')
+
+    
+    def build_tokenizer(self):
+        return self.stemmer_tokenizer
 
         
-        
-    def load_model (self, filename="models/trained_model.pkl"):
+    def stemmer_tokenizer(self, text):
+        tokenizer = gensim.utils.tokenize
+        return   [self.stemmer.stem(word) 
+            for word in tokenizer(text) if word not in self.stop_words]
+
+
+
+    @staticmethod      
+    def load_model (filename="models/trained_model.joblib"):
         '''
         
         Load a trained model from disk. 
@@ -43,7 +57,7 @@ class NLPClassifier(BaseEstimator):
         Parameters
         ----------
         filename : str, optional
-            The name of the file to load the model from. The default is "models/trained_model.pkl".
+            The name of the file to load the model from. The default is "models/trained_model.joblib".
 
         Raises
         ------
@@ -52,24 +66,15 @@ class NLPClassifier(BaseEstimator):
 
         Returns
         -------
-            itself.
+            The model.
 
         '''
-        
-        #__main__.stemmer_tokenizer, __main__stemmer  = stemmer_tokenizer, stemmer # this really needs to be improved
-        
-        tmp = joblib.load (filename)
-        if (tmp.__class__ != Pipeline):
-            raise AssertionError ("Invalid model %s" % filename)
-        
-        self.pipeline   = tmp
-        self.vectorizer = tmp.named_steps['tfidfvectorizer']
-        self.classifier = tmp.named_steps['kneighborsclassifier']        
-        self.is_trained = True
+                
+        self = joblib.load (filename)
         return self
     
     
-    def save_model (self, filename="models/trained_model.pkl"):
+    def save_model (self, filename="models/trained_model.joblib"):
     
         '''
         
@@ -78,7 +83,7 @@ class NLPClassifier(BaseEstimator):
         Parameters
         ----------
         filename : str, optional
-            The name of the file to load the model from. The default is "models/trained_model.pkl".
+            The name of the file to load the model from. The default is "models/trained_model.joblib".
 
         Raises
         ------
@@ -94,15 +99,18 @@ class NLPClassifier(BaseEstimator):
         if self.is_trained is not True:
             raise AssertionError ( "No model loaded. Use load_model() method.")
             
-        joblib.dump (self.pipeline, filename)
+        joblib.dump (self, filename)
         return self
         
         
     def fit (self, X, y):
         
-        self.vectorizer = TfidfVectorizer(strip_accents=None, lowercase=False, min_df=7, preprocessor=None,
-                        tokenizer=self._stemmer_tokenizer)
-        self.classifier = KNeighborsClassifier(n_neighbors=5, weights='distance')
+        self.vectorizer = TfidfVectorizer(strip_accents=None, lowercase=False,
+                        min_df=self.min_df, preprocessor=None,
+                        tokenizer=self.tokenizer, ngram_range=self.ngram_range,
+                        stop_words=self.stop_words, max_features=self.max_features)
+
+        self.classifier = KNeighborsClassifier(n_neighbors=self.n_neighbors, weights='distance')
         self.pipeline = make_pipeline( self.vectorizer,   self.classifier)
         self.pipeline.fit (X, y)
         
@@ -170,55 +178,6 @@ class NLPClassifier(BaseEstimator):
             
         return self.pipeline.predict_proba (X)
     
-    
-    def explain (self, query):
-        '''
-        
 
-        Parameters
-        ----------
-        query : str
-            A note for which an recommendation has to be explained. 
-
-        Raises
-        ------
-        AssertionError
-            If the model is not trained.
-
-        Returns
-        -------
-        results : dict
-            A dictionary object with the following items (dictionary keys):
-                
-                * similarity_per_class:  Dictionary where the key is the given class label and each value 
-               is the similarity of the most similar neighbour from that class to
-               the query.
-                
-                * keywords: Tuple containing a zipped list of word and tf-idf value
-                
-                * keywords_per_class: Dictionary where the key is the given class label
-                             and each value is a sorted list of keywords.
-                    
-                * overlap:   Dictionary where the key is the given class label
-                  and each value is a 2D list containg the word (String) and
-                  whether it is present in the query or not (Boolean).               
-        '''
-        
-        if self.is_trained is not True:
-            raise AssertionError ( "No model loaded. Use load_model() method.")
-        
-            
-        source_tfidf  = self.classifier._fit_X
-        source_labels = self.classifier.predict (source_tfidf) 
-        
-        
-        results = {
-            "similarity_per_class": get_similarity_per_class(self.vectorizer,  source_tfidf, source_labels,  query),
-            "keywords": get_keywords(self.vectorizer, query),
-            "keywords_per_class": get_keywords_per_class(self.vectorizer,  source_tfidf, source_labels, query),
-            "overlap": find_overlap (self.vectorizer,  self._stemmer_tokenizer, source_tfidf, source_labels,  query)
-            }
-        
-        return results
     
     
