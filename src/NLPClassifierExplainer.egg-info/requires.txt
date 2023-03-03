@@ -1,0 +1,5 @@
+nltk
+sklearn
+joblib
+numpy
+stop-words
