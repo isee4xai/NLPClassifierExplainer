@@ -28,23 +28,7 @@ print (f"Explainer's output : {explanation}")
 
 # generate a word cloud with the explanation
 
-from wordcloud import WordCloud
-
-
-# callback function for word cloud: 
-# returns 'green' if the word is an overalapping word,  'red' otherwise
-def wc_color_func (word, font_size, position, orientation,
-        font_path, random_state):
-
-    overlap_1 = dict(list(explanation['overlap'].values())[0])
-    if not word in overlap_1 or overlap_1[word] == False:
-        return "red"
-    return "green"
-
-
-wc = WordCloud(height=400, width=800, background_color="white",  color_func=wc_color_func,
-max_font_size=80, min_word_length=2, )
-wc.generate_from_frequencies (explanation['keywords'])
+wc = explainer.generate_word_cloud(explanation)
 wc.to_file(os.path.join(os.path.dirname(__file__),"../cloud.png"))
 
 
