@@ -3,3 +3,5 @@ sklearn
 joblib
 numpy
 stop-words
+wordcloud
+gensim
