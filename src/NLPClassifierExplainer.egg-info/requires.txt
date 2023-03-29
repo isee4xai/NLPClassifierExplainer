@@ -1,5 +1,5 @@
 nltk
-sklearn
+scikit-learn
 joblib
 numpy
 stop-words
