@@ -9,7 +9,7 @@ setup(
   
     name="NLPClassifierExplainer",  # Required
     
-    version="0.0.1",  # Required
+    version="0.0.2",  # Required
     url="https://github.com/isee4xai/NLPClassifierExplainer",  # Optional 
     author='b fleisch',
     author_email='bruno.fleisch at bt.com',
@@ -36,7 +36,7 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     
-    install_requires=["nltk", "scikit-learn","joblib", "numpy", "stop-words"],  # Optional
+    install_requires=["nltk", "scikit-learn","joblib", "numpy", "stop-words","wordcloud","gensim"],  # Optional
     
   
     project_urls={  # Optional
