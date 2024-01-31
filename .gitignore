@@ -2,3 +2,5 @@ __pycache__
 sources/
 models/*
 dist/*
+.venv/
+src/test.py

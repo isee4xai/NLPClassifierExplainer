@@ -100,7 +100,7 @@ classifier = NLPClassifier()
 
 
 param_grid = [{'ngram_range':[(1,1)],
-               'stop_words':[stop_words, []],
+               'stop_words':[list(stop_words), []],
                'max_features':[300],
                'n_neighbors': [3,5,7]}]
                
@@ -125,6 +125,9 @@ target_names = model.best_estimator_.classifier.classes_
 print(classification_report(y_true, y_pred, target_names=target_names, zero_division=0))
 
 # save best model to disk
-model.best_estimator_.save_model (filename=os.path.join(os.path.dirname(__file__), "../models/trained_model.joblib"))
+# model.best_estimator_.save_model (filename=os.path.join(os.path.dirname(__file__), "../models/trained_model.pkl"))
 
+import joblib
+joblib.dump (model.best_estimator_.pipeline, 
+             os.path.join(os.path.dirname(__file__), "../models/trained_model.pkl"))
 
