@@ -108,6 +108,7 @@ class NLPClassifier(BaseEstimator):
         self.vectorizer = TfidfVectorizer(strip_accents=None, lowercase=False,
                         min_df=self.min_df, preprocessor=None,
                         tokenizer=self.tokenizer, ngram_range=self.ngram_range,
+                        token_pattern=None,
                         stop_words=self.stop_words, max_features=self.max_features)
 
         self.classifier = KNeighborsClassifier(n_neighbors=self.n_neighbors, weights='distance')
