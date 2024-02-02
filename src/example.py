@@ -10,7 +10,7 @@ from NLPClassifierExplainer.NLPClassificationExplainer import NLPClassificationE
 from NLPClassifierExplainer.NLPClassifier import NLPClassifier
 
 recommender = NLPClassifier.load_model (
-    filename=os.path.join(os.path.dirname(__file__), "../models/trained_model.joblib"))
+    filename=os.path.join(os.path.dirname(__file__), "../models/trained_model.pkl"))
 
 explainer = NLPClassificationExplainer (recommender)
 
