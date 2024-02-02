@@ -193,9 +193,10 @@ def find_overlap(model, source_tfidf, source_labels, query, keywords = None, top
                   whether it is present in the query or not (Boolean).
     '''
     
-    stemmer_tokenizer = model.get_params()['tokenizer']
+    tokenizer = model.build_tokenizer()
+
     # Transform the query using tf-idf model
-    query_words = stemmer_tokenizer(query)
+    query_words = tokenizer(query)
     
     # If keywords are not identified, find them by calling that method
     if keywords == None:
