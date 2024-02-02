@@ -70,7 +70,12 @@ class NLPClassifier(BaseEstimator):
 
         '''
                 
-        self = joblib.load (filename)
+        self = NLPClassifier() 
+        self.pipeline = joblib.load (filename)
+        self.vectorizer = self.pipeline.steps[0][1]
+        self.classifier = self.pipeline.steps[1][1]
+        self.is_trained = hasattr (self.classifier, "n_samples_fit_")
+
         return self
     
     
@@ -99,7 +104,7 @@ class NLPClassifier(BaseEstimator):
         if self.is_trained is not True:
             raise AssertionError ( "No model loaded. Use load_model() method.")
             
-        joblib.dump (self, filename)
+        joblib.dump (self.pipeline, filename)
         return self
         
         
@@ -107,8 +112,9 @@ class NLPClassifier(BaseEstimator):
         
         self.vectorizer = TfidfVectorizer(strip_accents=None, lowercase=False,
                         min_df=self.min_df, preprocessor=None,
-                        tokenizer=self.tokenizer, ngram_range=self.ngram_range,
-                        token_pattern=None,
+                        # tokenizer=self.tokenizer,                         token_pattern=None,
+
+                        ngram_range=self.ngram_range,
                         stop_words=self.stop_words, max_features=self.max_features)
 
         self.classifier = KNeighborsClassifier(n_neighbors=self.n_neighbors, weights='distance')
