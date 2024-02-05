@@ -13,14 +13,16 @@ class NLPClassificationExplainer:
         ----------
 
         model: object
-            a text classification model that needs to have the following attributes
-                vectorizere: a sklearn-compatible vectorizer (eg: tf-idf)
+            a text classification model as a sklearn pipeline that needs to have the following names steps
+                vectorizer: a sklearn-compatible vectorizer (eg: tf-idf)
                 classifier: a sklearn compatible classifier (eg: KNN classifier)
 
         '''
-
-        self.classifier = model.classifier
-        self.vectorizer = model.vectorizer
+        if not hasattr (model, "named_steps"):
+            raise "model must be a named scikit-learn pipeline"
+        
+        self.classifier = model.named_steps['classifier']
+        self.vectorizer = model.named_steps['vectorizer']
         
 
     def explain (self, query, source=None, top_n=10):
