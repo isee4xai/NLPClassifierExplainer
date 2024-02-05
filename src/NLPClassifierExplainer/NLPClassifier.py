@@ -72,8 +72,8 @@ class NLPClassifier(BaseEstimator):
                 
         self = NLPClassifier() 
         self.pipeline = joblib.load (filename)
-        self.vectorizer = self.pipeline.steps[0][1]
-        self.classifier = self.pipeline.steps[1][1]
+        self.classifier = self.pipeline.named_steps['classifier']
+        self.vectorizer = self.pipeline.named_steps['vectorizer']
         self.is_trained = hasattr (self.classifier, "n_samples_fit_")
 
         return self
@@ -118,7 +118,10 @@ class NLPClassifier(BaseEstimator):
                         stop_words=self.stop_words, max_features=self.max_features)
 
         self.classifier = KNeighborsClassifier(n_neighbors=self.n_neighbors, weights='distance')
-        self.pipeline = make_pipeline( self.vectorizer,   self.classifier)
+        self.pipeline = Pipeline (steps= [
+            ('vectorizer', self.vectorizer),
+            ('classifier', self.classifier),
+        ])
         self.pipeline.fit (X, y)
         
         self.is_trained = True

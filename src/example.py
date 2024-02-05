@@ -12,7 +12,7 @@ from NLPClassifierExplainer.NLPClassifier import NLPClassifier
 recommender = NLPClassifier.load_model (
     filename=os.path.join(os.path.dirname(__file__), "../models/trained_model.pkl"))
 
-explainer = NLPClassificationExplainer (recommender)
+explainer = NLPClassificationExplainer (recommender.pipeline)
 
 #query = 'New dropfrom eu to carrier pole unable pu t to drop from carrier to dp as it goes over train tracks. An di cant do this safely.'
 query = 'IncompleteReason: I have run out of timeithin my scheduled hours. The end customer cannot use the srvice. The work outstanding is Track.'
