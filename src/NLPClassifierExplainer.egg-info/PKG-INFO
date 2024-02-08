@@ -5,6 +5,4 @@ Summary: A simple explainer for NLP classification task
 Home-page: https://github.com/isee4xai/NLPClassifierExplainer
 Author: b fleisch
 Author-email: Bruno Fleisch <bruno.fleisch@bt.com>
-Project-URL: Bug Reports, https://github.com/isee4xai/NLPClassifierExplainer/issues
-Project-URL: Source, https://github.com/isee4xai/NLPClassifierExplainer/
 Requires-Python: >=3.3, <4

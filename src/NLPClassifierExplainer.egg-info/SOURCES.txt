@@ -7,5 +7,4 @@ src/NLPClassifierExplainer/__init__.py
 src/NLPClassifierExplainer.egg-info/PKG-INFO
 src/NLPClassifierExplainer.egg-info/SOURCES.txt
 src/NLPClassifierExplainer.egg-info/dependency_links.txt
-src/NLPClassifierExplainer.egg-info/requires.txt
 src/NLPClassifierExplainer.egg-info/top_level.txt

@@ -4,3 +4,4 @@ models/*
 dist/*
 .venv/
 src/test.py
+cloud.png
